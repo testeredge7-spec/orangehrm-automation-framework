@@ -10,10 +10,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import org.apache.logging.log4j.Logger;
+
+import utilities.LoggerUtil;
+
 public class DashboardPage {
 
 	private WebDriver driver;
 	private WebDriverWait wait;
+
+	private static final Logger log = LoggerUtil.getLogger(DashboardPage.class);
 
 	public DashboardPage(WebDriver driver) {
 
@@ -40,26 +46,38 @@ public class DashboardPage {
 
 	public boolean isDashboardDisplayed() {
 
+		log.info("Verifying Dashboard visibility");
+
 		return wait.until(ExpectedConditions.visibilityOfElementLocated(dashboardHeader)).isDisplayed();
 	}
 
 	public String getDashboardHeaderText() {
 
-		return wait.until(ExpectedConditions.visibilityOfElementLocated(dashboardHeader)).getText();
+		String header = wait.until(ExpectedConditions.visibilityOfElementLocated(dashboardHeader)).getText();
+
+		log.info("Dashboard Header: {}", header);
+
+		return header;
 	}
 
 	public int getMenuCount() {
 
-		return driver.findElements(menuItems).size();
+		int count = driver.findElements(menuItems).size();
+
+		log.info("Total menu count: {}", count);
+
+		return count;
 	}
 
 	public void printAllMenus() {
 
 		List<WebElement> menus = driver.findElements(menuItems);
 
+		log.info("Printing all dashboard menus");
+
 		for (WebElement menu : menus) {
 
-			System.out.println(menu.getText());
+			log.info(menu.getText());
 		}
 	}
 
@@ -95,11 +113,15 @@ public class DashboardPage {
 
 	public void clickAdmin() {
 
+		log.info("Clicking Admin menu");
+
 		wait.until(ExpectedConditions.elementToBeClickable(adminMenu)).click();
 	}
-	
+
 	public void clickLeave() {
-		wait.until(ExpectedConditions.elementToBeClickable(leaveMenu)).click();		
+
+		log.info("Clicking Leave menu");
+
+		wait.until(ExpectedConditions.elementToBeClickable(leaveMenu)).click();
 	}
-	
 }
