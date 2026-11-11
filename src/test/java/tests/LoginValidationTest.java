@@ -7,8 +7,28 @@ import base.BaseTest;
 import pages.ForgotPasswordPage;
 import pages.LoginPage;
 
+import dataproviders.LoginDataProvider;
+
 public class LoginValidationTest extends BaseTest {
 
+	@Test(
+	        dataProvider = "invalidLoginData",
+	        dataProviderClass = LoginDataProvider.class)
+	public void verifyInvalidLoginScenarios(
+	        String username,
+	        String password) {
+
+	    driver.get(prop.getProperty("url"));
+
+	    LoginPage login = new LoginPage(driver);
+
+	    login.login(username, password);
+
+	    Assert.assertEquals(
+	            login.getInvalidCredentialsMessage(),
+	            "Invalid credentials");
+	}
+	
 	@Test(priority = 1)
 	public void verifyLoginPageLoads() {
 
@@ -17,7 +37,7 @@ public class LoginValidationTest extends BaseTest {
 		Assert.assertTrue(login.isLoginPageDisplayed(), "Login page is not displayed");
 	}
 
-	@Test(priority = 2)
+	@Test(enabled = false)
 	public void verifyInvalidUsername() {
 
 		driver.get(prop.getProperty("url"));
@@ -29,7 +49,7 @@ public class LoginValidationTest extends BaseTest {
 		Assert.assertEquals(login.getInvalidCredentialsMessage(), "Invalid credentials");
 	}
 
-	@Test(priority = 3)
+	@Test(enabled = false)
 	public void verifyInvalidPassword() {
 
 		driver.get(prop.getProperty("url"));
@@ -41,7 +61,7 @@ public class LoginValidationTest extends BaseTest {
 		Assert.assertEquals(login.getInvalidCredentialsMessage(), "Invalid credentials");
 	}
 
-	@Test(priority = 4)
+	@Test(enabled = false)
 	public void verifyInvalidUsernameAndPassword() {
 
 		driver.get(prop.getProperty("url"));

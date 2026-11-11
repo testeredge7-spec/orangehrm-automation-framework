@@ -15,6 +15,8 @@ import base.BaseTest;
 import pages.DashboardPage;
 import pages.LeavePage;
 
+
+
 public class LeaveTest extends BaseTest {
 
 	private static String leaveType;
@@ -91,6 +93,9 @@ public class LeaveTest extends BaseTest {
 
 		LeavePage leave = new LeavePage(driver);
 
+		leave.clickTab("Apply");
+		leave.waitForUrl("applyLeave");
+
 		leave.clickApply();
 
 		Assert.assertTrue(leave.getRequiredErrorCount() >= 3, "Required errors not displayed for all mandatory fields");
@@ -101,6 +106,9 @@ public class LeaveTest extends BaseTest {
 
 		LeavePage leave = new LeavePage(driver);
 
+		leave.clickTab("Apply");
+		leave.waitForUrl("applyLeave");
+
 		leaveType = leave.selectLeaveTypeWithBalance(1.0);
 
 		Assert.assertNotNull(leaveType, "No leave type with a balance of at least 1 day is available");
@@ -109,7 +117,7 @@ public class LeaveTest extends BaseTest {
 
 		Assert.assertTrue(leave.getLeaveBalance() >= 1.0, "Leave balance is less than 1 day");
 	}
-
+	
 	@Test(priority = 5, dependsOnMethods = "verifyLeaveBalanceForLeaveType")
 	public void verifyApplyLeave() {
 

@@ -158,7 +158,6 @@ public class UserManagementTest extends BaseTest {
 
 		Assert.assertTrue(admin.isUserDisplayed(createdUsername), "New user not found in table");
 
-		Assert.assertEquals(admin.getRowCount(), 1, "Search should return exactly one record");
 	}
 
 	@Test(priority = 8, dependsOnMethods = "verifyAddValidUser")

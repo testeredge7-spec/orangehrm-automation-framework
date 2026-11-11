@@ -201,7 +201,23 @@ public class AdminPage {
 		By editIcon = By.xpath("//div[@class='oxd-table-body']//div[@role='row'][.//div[normalize-space()='" + username
 				+ "']]//button[.//i[contains(@class,'bi-pencil-fill')]]");
 
-		wait.until(ExpectedConditions.elementToBeClickable(editIcon)).click();
+		waitForSpinnerToDisappear();
+
+		for (int i = 0; i < 3; i++) {
+
+			try {
+
+				driver.findElement(editIcon).click();
+
+				return;
+
+			} catch (StaleElementReferenceException e) {
+
+				waitForSpinnerToDisappear();
+			}
+		}
+
+		throw new RuntimeException("Unable to click Edit button for user: " + username);
 	}
 
 	public void clickDeleteUser(String username) {
